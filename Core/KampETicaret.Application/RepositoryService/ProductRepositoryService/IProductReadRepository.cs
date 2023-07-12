@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KampETicaret.Application.Abstractions
+namespace KampETicaret.Application.RepositoryService.ProductRepositories
 {
-    public interface IProductService
+    public interface IProductReadRepository : IReadRepository<Product>
     {
-        List<Product> GetProductsList();
     }
 }

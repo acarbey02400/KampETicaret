@@ -10,4 +10,12 @@
     <ProjectReference Include="..\KampETicaret.Domain\KampETicaret.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
+  </ItemGroup>
+
 </Project>

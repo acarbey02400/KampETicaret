@@ -1,6 +1,12 @@
-﻿using KampETicaret.Application.Abstractions;
-using KampETicaret.Persistence.Concretes;
+﻿using KampETicaret.Application.RepositoryService;
+using KampETicaret.Application.RepositoryService.CustomerRepositoryService;
+using KampETicaret.Application.RepositoryService.OrderRepositoryService;
+using KampETicaret.Application.RepositoryService.ProductRepositories;
 using KampETicaret.Persistence.Contexts;
+using KampETicaret.Persistence.Repositories;
+using KampETicaret.Persistence.Repositories.CustomerRepositories;
+using KampETicaret.Persistence.Repositories.OrderRepositories;
+using KampETicaret.Persistence.Repositories.ProductRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,8 +26,16 @@ namespace KampETicaret.Persistence
                                                     options.UseSqlServer(
                                                         configuration.GetConnectionString("KampETicaretAPIDbContext")));
 
-            services.AddSingleton<IProductService, ProductService>();
 
+            services.AddScoped<ICustomerReadRepository,CustomerReadRepository>();
+            services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
+
+            services.AddScoped<IOrderReadRepository, OrderReadRepository>();
+            services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
+
+            services.AddScoped<IProductReadRepository, ProductReadRepository>();
+            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
         }
+        
     }
 }
