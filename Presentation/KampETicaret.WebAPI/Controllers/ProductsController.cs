@@ -17,10 +17,15 @@ namespace KampETicaret.WebAPI.Controllers
             _writeRepository = writeRepository;
             _readRepository = readRepository;
         }
-        [HttpGet]
+        [HttpGet("getallasync")]
         public Task<List<Product>> GetAllAsync()
         {
             return _readRepository.GetAllAsync();
+        }
+        [HttpGet("getbyidasync")]
+        public Task<Product> GetByIdAsync(string id)
+        {
+            return _readRepository.GetSingleAsync(p=>p.Id==Guid.Parse(id));
         }
         [HttpPost("addasync")]
         public Task<Product> AddAsync([FromBody]Product product)

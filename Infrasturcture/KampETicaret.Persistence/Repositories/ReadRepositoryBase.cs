@@ -23,15 +23,19 @@ namespace KampETicaret.Persistence.Repositories
 
         public DbSet<TEntity> Table => _dbContext.Set<TEntity>();
 
-        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? method = null)
+        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? method = null, bool tracking = true)
         {
-           
-            if (method != null) { return await Table.Where(method).ToListAsync(); }
-            return await Table.ToListAsync();
+           IQueryable<TEntity> query= Table.AsQueryable();
+            if (!tracking) { query.AsNoTracking(); }
+            if (method != null) { return await query.Where(method).ToListAsync(); }
+            
+            return await query.ToListAsync();
         }
 
-        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> method)
+        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> method, bool tracking = true)
         {
+            IQueryable<TEntity> query = Table.AsQueryable();
+            if (!tracking) { return await query.FirstOrDefaultAsync(method); }
             return await Table.FirstOrDefaultAsync(method);
         }
     }

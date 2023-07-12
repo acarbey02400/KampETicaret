@@ -22,28 +22,28 @@ namespace KampETicaret.Persistence.Repositories
 
         public DbSet<TEntity> Table => _dbContext.Set<TEntity>();
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity, bool tracking = true)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
             await SaveAsync();
             return entity;
         }
 
-        public async Task<List<TEntity>> AddRangeAsync(List<TEntity> entity)
+        public async Task<List<TEntity>> AddRangeAsync(List<TEntity> entity, bool tracking = true)
         {
             await _dbContext.AddRangeAsync(entity);
             await SaveAsync();
             return entity;
         }
 
-        public async Task<bool> RemoveAsync(TEntity entity)
+        public async Task<bool> RemoveAsync(TEntity entity, bool tracking = true)
         {
            _dbContext.Entry(entity).State = EntityState.Deleted;
             await SaveAsync();
             return true;
         }
 
-        public async Task<bool> RemoveAsync(string id)
+        public async Task<bool> RemoveAsync(string id, bool tracking = true)
         {
            _dbContext.Entry(Table.Where(p => p.Id ==Guid.Parse(id))).State=EntityState.Deleted;
             await SaveAsync();
@@ -52,7 +52,7 @@ namespace KampETicaret.Persistence.Repositories
 
         
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity, bool tracking = true)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await SaveAsync();
