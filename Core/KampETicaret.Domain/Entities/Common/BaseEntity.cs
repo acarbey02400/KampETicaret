@@ -10,5 +10,6 @@ namespace KampETicaret.Domain.Entities.Common
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime? UpdatedDate { get; set; } 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using KampETicaret.Domain.Entities;
+using KampETicaret.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -56,6 +57,15 @@ namespace KampETicaret.Persistence.Contexts
                 a.Property(p => p.CreatedDate).HasColumnName("CreatedDate");
                 a.HasMany(p => p.Orders);
             });
+        }
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var datas= ChangeTracker.Entries<BaseEntity>();
+            foreach (var item in datas)
+            {
+                if (item.State == EntityState.Modified) { item.Entity.UpdatedDate = DateTime.Now; }
+            }
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }
