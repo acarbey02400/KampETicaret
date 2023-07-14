@@ -1,13 +1,13 @@
 using KampETicaret.Persistence;
 using KampETicaret.Application;
 using FluentValidation.AspNetCore;
-using KampETicaret.Application.ValidatorService.ProductsValidator;
+using KampETicaret.Application.Features.Commands.ProductCommands.CreateProduct;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddFluentValidation(configration=>configration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>());
+builder.Services.AddControllers().AddFluentValidation(configration => configration.RegisterValidatorsFromAssemblyContaining<CreateProductCommandValidator>());
 builder.Services.AddAplicationServices();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

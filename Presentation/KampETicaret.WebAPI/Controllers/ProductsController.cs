@@ -1,4 +1,9 @@
 ﻿using KampETicaret.Application.Dtos;
+using KampETicaret.Application.Features.Commands.ProductCommands.CreateProduct;
+using KampETicaret.Application.Features.Commands.ProductCommands.DeleteProduct;
+using KampETicaret.Application.Features.Commands.ProductCommands.UpdateProduct;
+using KampETicaret.Application.Features.Queries.ProductQueries.GetAllProduct;
+using KampETicaret.Application.Features.Queries.ProductQueries.GetByIdProduct;
 using KampETicaret.Application.RepositoryService.ProductRepositories;
 using KampETicaret.Application.RequestParameters;
 using KampETicaret.Domain.Entities;
@@ -10,7 +15,7 @@ namespace KampETicaret.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseController
     {
         private readonly IProductWriteRepository _writeRepository;
         private readonly IProductReadRepository _readRepository;
@@ -22,43 +27,38 @@ namespace KampETicaret.WebAPI.Controllers
         }
 
         [HttpGet("getallasync")]
-        public async Task<ActionResult> GetAllAsync([FromQuery]Pagination pagination)
+        public async Task<ActionResult> GetAllAsync([FromQuery]GetAllProductQuery query)
         {
-            var result = await _readRepository.GetAllAsync();
-           
-            return Ok
-            (
-                result.Skip(pagination.Page * pagination.Size)
-                .Take(pagination.Size)
-               .ToList()
-            );
+            var result = await Mediator.Send(query);
+            return Ok(result);
         }
 
         [HttpGet("getbyidasync")]
-        public Task<Product> GetByIdAsync(string id)
+        public async Task<ActionResult> GetByIdAsync([FromQuery]GetByIdProductQuery query)
         {
-            return _readRepository.GetSingleAsync(p=>p.Id==Guid.Parse(id));
+            var result = await Mediator.Send(query);
+            return Ok(result);
         }
 
         [HttpPost("addasync")]
-        public async Task<ActionResult> AddAsync([FromBody]CreateProductDto productDto)
+        public async Task<ActionResult> AddAsync([FromBody]CreateProductCommand command)
         {
-            var createdProduct = await _writeRepository.AddAsync(new() { Name = productDto.Name, Price = productDto.Price, Stock = productDto.stock });
-            return Created("",createdProduct);
+            var result = await Mediator.Send(command);
+            return Created("",result);
         }
 
         [HttpPost("updateasync")]
-        public async Task<IActionResult> UpdateAsync([FromBody] Product product)
+        public async Task<ActionResult> UpdateAsync([FromBody]UpdateProductCommand command)
         {
-          var updatedProduct=  await _writeRepository.UpdateAsync(product);
+            var updatedProduct = await Mediator.Send(command);
             return Created("", updatedProduct);
         }
 
         [HttpPost("deleteasync")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<ActionResult> DeleteAsync([FromBody] DeleteProductCommand command)
         {
-            var DeletedProduct = await _writeRepository.RemoveAsync(id);
-            return Ok("Success.");
+            var DeletedProduct = await Mediator.Send(command);
+            return Ok(DeletedProduct);
         }
 
         [HttpPost("uploadfile")]

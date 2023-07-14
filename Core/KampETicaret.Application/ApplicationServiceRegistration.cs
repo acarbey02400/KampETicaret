@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,10 @@ namespace KampETicaret.Application
     {
         public static IServiceCollection AddAplicationServices(this IServiceCollection services) 
         {
-            //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+           services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+           services.AddAutoMapper(Assembly.GetExecutingAssembly());
+           services.AddMediatR(Assembly.GetExecutingAssembly());
+
             return services;
         }
     }
