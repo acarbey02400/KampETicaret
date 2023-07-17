@@ -13,7 +13,11 @@ namespace KampETicaret.Domain.Entities.Identity
         {
             Id = Guid.NewGuid().ToString();
         }
-        
+        public AppUser(string fullName,string id):this()
+        {
+            FullName = fullName;
+            Id = id;
+        }
         public string? FullName { get; set; }
     }
 }

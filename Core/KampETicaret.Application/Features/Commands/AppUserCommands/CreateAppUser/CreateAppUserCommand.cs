@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KampETicaret.Application.Features.Commands.ProductCommands.CreateProduct;
 using KampETicaret.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
