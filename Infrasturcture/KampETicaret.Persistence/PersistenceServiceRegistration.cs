@@ -2,6 +2,7 @@
 using KampETicaret.Application.RepositoryService.CustomerRepositoryService;
 using KampETicaret.Application.RepositoryService.OrderRepositoryService;
 using KampETicaret.Application.RepositoryService.ProductRepositories;
+using KampETicaret.Domain.Entities.Identity;
 using KampETicaret.Persistence.Contexts;
 using KampETicaret.Persistence.Repositories;
 using KampETicaret.Persistence.Repositories.CustomerRepositories;
@@ -25,7 +26,17 @@ namespace KampETicaret.Persistence
             services.AddDbContext<KampETicaretAPIDbContext>(options =>
                                                     options.UseSqlServer(
                                                         configuration.GetConnectionString("KampETicaretAPIDbContext")));
+            services.AddDbContext<KampETicaretAPIIdentityDbContext>(options =>
+                                                   options.UseSqlServer(
+                                                       configuration.GetConnectionString("KampETicaretAPIIdentityDbContext")));
 
+            services.AddIdentity<AppUser, AppRole>(options => {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+            }).AddEntityFrameworkStores<KampETicaretAPIIdentityDbContext>();
 
             services.AddScoped<ICustomerReadRepository,CustomerReadRepository>();
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();

@@ -1,5 +1,7 @@
 ﻿using KampETicaret.Domain.Entities;
 using KampETicaret.Domain.Entities.Common;
+using KampETicaret.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace KampETicaret.Persistence.Contexts
 {
-    public class KampETicaretAPIDbContext : DbContext
+    public class KampETicaretAPIDbContext :DbContext
     {
         protected IConfiguration Configuration;
         public KampETicaretAPIDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
