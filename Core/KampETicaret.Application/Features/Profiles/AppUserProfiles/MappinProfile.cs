@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using KampETicaret.Application.Features.Commands.AppUserCommands.CreateAppUser;
 using KampETicaret.Application.Features.Commands.AppUserCommands.UpdateAppUser;
+using KampETicaret.Application.Features.Queries.AppUserQueries.GetAllAppUser;
 using KampETicaret.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace KampETicaret.Application.Features.Profiles.AppUserProfiles
 
             CreateMap<UpdateAppUserCommand, AppUser>().ReverseMap();
             CreateMap<UpdateAppUserCommandDto, AppUser>().ReverseMap();
+
+            CreateMap<GetAllAppUserQueryDto, AppUser>().ReverseMap();   
         }
     }
 }

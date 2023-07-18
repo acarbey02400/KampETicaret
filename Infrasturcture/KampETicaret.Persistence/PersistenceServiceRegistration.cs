@@ -1,10 +1,8 @@
-﻿using KampETicaret.Application.RepositoryService;
-using KampETicaret.Application.RepositoryService.CustomerRepositoryService;
+﻿using KampETicaret.Application.RepositoryService.CustomerRepositoryService;
 using KampETicaret.Application.RepositoryService.OrderRepositoryService;
 using KampETicaret.Application.RepositoryService.ProductRepositories;
 using KampETicaret.Domain.Entities.Identity;
 using KampETicaret.Persistence.Contexts;
-using KampETicaret.Persistence.Repositories;
 using KampETicaret.Persistence.Repositories.CustomerRepositories;
 using KampETicaret.Persistence.Repositories.OrderRepositories;
 using KampETicaret.Persistence.Repositories.ProductRepositories;
@@ -46,6 +44,7 @@ namespace KampETicaret.Persistence
 
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+            
         }
         
     }

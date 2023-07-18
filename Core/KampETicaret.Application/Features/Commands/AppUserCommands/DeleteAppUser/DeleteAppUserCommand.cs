@@ -24,14 +24,20 @@ namespace KampETicaret.Application.Features.Commands.AppUserCommands.DeleteAppUs
         {
 
             var resultFindByEmail = await _userManager.FindByEmailAsync(request.Email);
-            var result = await _userManager.DeleteAsync(resultFindByEmail);
-            return new() { Errors = result.Errors, Succeeded = result.Succeeded };
+            if (resultFindByEmail != null)
+            {
+                var result = await _userManager.DeleteAsync(resultFindByEmail);
+                return new() { Errors = result.Errors, Success = result.Succeeded };
+            }
+            List<IdentityError> identityErrors = new();
+            identityErrors.Add(new() { Description = "Bu Email ile kullanıcı bulunamadı" });
+            return new() { Errors = identityErrors, Success = false };
 
         }
     }
     public class DeleteAppUserCommandResponse
     {
-        public bool Succeeded { get; set; }
+        public bool Success { get; set; }
         public IEnumerable<IdentityError>? Errors { get; set; }
     }
 }

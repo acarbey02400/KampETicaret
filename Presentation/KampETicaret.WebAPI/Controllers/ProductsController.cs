@@ -7,6 +7,7 @@ using KampETicaret.Application.Features.Queries.ProductQueries.GetByIdProduct;
 using KampETicaret.Application.RepositoryService.ProductRepositories;
 using KampETicaret.Application.RequestParameters;
 using KampETicaret.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
@@ -15,6 +16,7 @@ namespace KampETicaret.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes ="Admin")]
     public class ProductsController : BaseController
     {
         private readonly IProductWriteRepository _writeRepository;

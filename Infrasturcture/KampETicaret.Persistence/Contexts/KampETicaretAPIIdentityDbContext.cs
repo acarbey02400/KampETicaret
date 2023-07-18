@@ -13,7 +13,7 @@ namespace KampETicaret.Persistence.Contexts
     public class KampETicaretAPIIdentityDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
         protected IConfiguration Configuration;
-        public KampETicaretAPIIdentityDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+        public KampETicaretAPIIdentityDbContext(DbContextOptions<KampETicaretAPIIdentityDbContext> options, IConfiguration configuration) : base(options)
         {
             Configuration = configuration;
         }

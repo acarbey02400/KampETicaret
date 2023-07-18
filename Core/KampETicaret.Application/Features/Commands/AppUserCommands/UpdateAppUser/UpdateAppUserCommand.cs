@@ -30,7 +30,6 @@ namespace KampETicaret.Application.Features.Commands.AppUserCommands.UpdateAppUs
         public async Task<UpdateAppUserCommandResponse> Handle(UpdateAppUserCommand request, CancellationToken cancellationToken)
         {
             AppUser mappedAppUser = _mapper.Map<AppUser>(request);
-            await _userManager.UpdateSecurityStampAsync(mappedAppUser);
             var result = await _userManager.UpdateAsync(mappedAppUser);
             UpdateAppUserCommandDto mappedDto=_mapper.Map<UpdateAppUserCommandDto>(mappedAppUser);
             return new() { Errors=result.Errors, Succeeded=result.Succeeded, UpdateAppUserCommandDto=mappedDto };

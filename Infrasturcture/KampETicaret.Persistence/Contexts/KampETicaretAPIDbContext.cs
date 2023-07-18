@@ -16,7 +16,7 @@ namespace KampETicaret.Persistence.Contexts
     public class KampETicaretAPIDbContext :DbContext
     {
         protected IConfiguration Configuration;
-        public KampETicaretAPIDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+        public KampETicaretAPIDbContext(DbContextOptions<KampETicaretAPIDbContext> options, IConfiguration configuration) : base(options)
         {
             Configuration = configuration;
         }
