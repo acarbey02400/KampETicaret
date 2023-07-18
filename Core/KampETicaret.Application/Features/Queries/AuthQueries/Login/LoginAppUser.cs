@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,10 +33,12 @@ namespace KampETicaret.Application.Features.Queries.AuthQueries.Login
         public async Task<LoginAppUserResponse> Handle(LoginAppUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
+            var role = await _userManager.GetRolesAsync(user);
+            
             var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (signInResult.Succeeded)
             {
-                return new() { Success = signInResult.Succeeded, Token = _tokenHandler.CreateAccessToken(),Message="Giriş yapıldı." };
+                return new() { Success = signInResult.Succeeded, Token = _tokenHandler.CreateAccessToken(user,role),Message="Giriş yapıldı." };
 
             }
             return new() { Success = false, Message="Kullanıcı adı veya şifre hatalı" };
