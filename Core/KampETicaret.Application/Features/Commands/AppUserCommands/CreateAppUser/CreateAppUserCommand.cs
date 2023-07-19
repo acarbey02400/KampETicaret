@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KampETicaret.Application.Abstractions.ApplicationServices.AspnetIdentityServices;
 using KampETicaret.Application.Features.Commands.ProductCommands.CreateProduct;
 using KampETicaret.Domain.Entities.Identity;
 using MediatR;
@@ -20,31 +21,26 @@ namespace KampETicaret.Application.Features.Commands.AppUserCommands.CreateAppUs
     }
     public class CreateAppUserCommandHandler : IRequestHandler<CreateAppUserCommand, CreateAppUserCommandResponse>
     {
-        readonly UserManager<AppUser> _userManager;
+        readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public CreateAppUserCommandHandler(UserManager<AppUser> userManager, IMapper mapper)
+        public CreateAppUserCommandHandler(IUserService userService, IMapper mapper)
         {
-            _userManager = userManager;
+            _userService = userService;
             _mapper = mapper;
         }
         public async Task<CreateAppUserCommandResponse> Handle(CreateAppUserCommand request, CancellationToken cancellationToken)
         {
             AppUser mappedAppUser = _mapper.Map<AppUser>(request);
-            var result = await _userManager.CreateAsync(mappedAppUser, request.Password);
-            if (!result.Succeeded)
-            {
-                return new() { Succeeded = result.Succeeded, Errors = result.Errors };
-            }
-            var createdUser =await _userManager.FindByEmailAsync(mappedAppUser.Email);
-            var mappedDto = _mapper.Map<CreateAppUserCommandDto>(createdUser);            
-            return new() { Succeeded = result.Succeeded, CreateAppUserCommandDto = mappedDto };
+            var createdUser= await _userService.CreateAsync(mappedAppUser,request.Password);
+           
+            var mappedDto = _mapper.Map<CreateAppUserCommandDto>(createdUser);
+            return new() { Succeeded = true, CreateAppUserCommandDto = mappedDto };
         }
     }
     public class CreateAppUserCommandResponse
     {
         public bool Succeeded { get; set; }
-        public IEnumerable<IdentityError>? Errors { get; set; }
         public CreateAppUserCommandDto? CreateAppUserCommandDto { get; set; }
     }
     public class CreateAppUserCommandDto

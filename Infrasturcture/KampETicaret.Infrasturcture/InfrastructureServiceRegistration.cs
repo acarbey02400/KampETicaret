@@ -1,4 +1,6 @@
-﻿using KampETicaret.Application.Abstractions.TokenManager;
+﻿using KampETicaret.Application.Abstractions.ApplicationServices.AspnetIdentityServices;
+using KampETicaret.Application.Abstractions.TokenManager;
+using KampETicaret.Infrasturcture.Services.IdentityServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +32,8 @@ namespace KampETicaret.Infrasturcture
                  };
              });
             services.AddScoped<ITokenHandler,Services.TokenServices.TokenHandler>();
+            services.AddScoped<IUserService, AspNetIdentityUserManager>();
+            services.AddScoped<IAuthService,AspNetIdentityAuthManager>();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using KampETicaret.Application.Abstractions.TokenManager;
+﻿using AutoMapper;
+using KampETicaret.Application.Abstractions.ApplicationServices.AspnetIdentityServices;
+using KampETicaret.Application.Abstractions.TokenManager;
 using KampETicaret.Application.Dtos;
 using KampETicaret.Domain.Entities.Identity;
 using MediatR;
@@ -21,27 +23,21 @@ namespace KampETicaret.Application.Features.Queries.AuthQueries.Login
     }
     public class LoginAppUserHandler : IRequestHandler<LoginAppUserQuery, LoginAppUserResponse>
     {
-        readonly UserManager<AppUser> _userManager;
-        readonly SignInManager<AppUser> _signInManager;
-        private readonly ITokenHandler _tokenHandler;
-        public LoginAppUserHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
+        readonly IUserService _userManager;
+        readonly IAuthService _loginService;
+       
+        private readonly IMapper _mapper;
+        public LoginAppUserHandler(IUserService userManager, IAuthService loginService, IMapper mapper)
         {
-            _tokenHandler = tokenHandler;
             _userManager = userManager;
-            _signInManager = signInManager;
+            _loginService = loginService;
+            _mapper = mapper;
         }
         public async Task<LoginAppUserResponse> Handle(LoginAppUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
-            var role = await _userManager.GetRolesAsync(user);
-            
-            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-            if (signInResult.Succeeded)
-            {
-                return new() { Success = signInResult.Succeeded, Token = _tokenHandler.CreateAccessToken(user,role),Message="Giriş yapıldı." };
-
-            }
-            return new() { Success = false, Message="Kullanıcı adı veya şifre hatalı" };
+            var getByNameUserResponse = await _userManager.GetByNameAsync(request.UserName);
+            var role = await _userManager.GetRolesAsync(getByNameUserResponse);
+            return await _loginService.CheckPasswordSignInAsync(getByNameUserResponse, request.Password,false,role);
            
         }
     }

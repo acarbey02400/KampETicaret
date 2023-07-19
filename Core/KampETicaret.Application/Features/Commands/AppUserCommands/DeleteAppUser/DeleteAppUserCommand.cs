@@ -1,4 +1,6 @@
-﻿using KampETicaret.Domain.Entities.Identity;
+﻿using AutoMapper;
+using KampETicaret.Application.Abstractions.ApplicationServices.AspnetIdentityServices;
+using KampETicaret.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -11,33 +13,32 @@ namespace KampETicaret.Application.Features.Commands.AppUserCommands.DeleteAppUs
 {
     public class DeleteAppUserCommand : IRequest<DeleteAppUserCommandResponse>
     {
-        public string? Email { get; set; }
+        public string? Id { get; set; }
     }
     public class DeleteAppUserCommandHandler : IRequestHandler<DeleteAppUserCommand, DeleteAppUserCommandResponse>
     {
-        private readonly UserManager<AppUser> _userManager;
-        public DeleteAppUserCommandHandler(UserManager<AppUser> userManager)
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+        public DeleteAppUserCommandHandler(IUserService userService,IMapper mapper)
         {
-            _userManager = userManager;
+            _userService = userService;
+            _mapper = mapper;
         }
         public async Task<DeleteAppUserCommandResponse> Handle(DeleteAppUserCommand request, CancellationToken cancellationToken)
         {
 
-            var resultFindByEmail = await _userManager.FindByEmailAsync(request.Email);
-            if (resultFindByEmail != null)
-            {
-                var result = await _userManager.DeleteAsync(resultFindByEmail);
-                return new() { Errors = result.Errors, Success = result.Succeeded };
-            }
-            List<IdentityError> identityErrors = new();
-            identityErrors.Add(new() { Description = "Bu Email ile kullanıcı bulunamadı" });
-            return new() { Errors = identityErrors, Success = false };
+            var mappedAppUser = _mapper.Map<AppUser>(request);
 
+            var deletedUser= await _userService.DeleteAsync(mappedAppUser);
+            if (deletedUser)
+            {
+                return new() { Success = true };
+            }
+            return new() {  Success = false };
         }
     }
     public class DeleteAppUserCommandResponse
     {
         public bool Success { get; set; }
-        public IEnumerable<IdentityError>? Errors { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace KampETicaret.Application.Features.Commands.AppUserCommands.DeleteAppUs
     {
         public DeleteAppUserCommandValidator()
         {
-            RuleFor(p => p.Email).NotEmpty().NotNull();
+            RuleFor(p => p.Id).NotEmpty().NotNull();
         }
     }
 }

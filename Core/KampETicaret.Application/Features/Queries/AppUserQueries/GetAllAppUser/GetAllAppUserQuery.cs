@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KampETicaret.Application.Abstractions.ApplicationServices.AspnetIdentityServices;
 using KampETicaret.Application.RequestParameters;
 using KampETicaret.Domain.Entities.Identity;
 using MediatR;
@@ -18,21 +19,18 @@ namespace KampETicaret.Application.Features.Queries.AppUserQueries.GetAllAppUser
     }
     public class GetAllAppUserQueryHandler : IRequestHandler<GetAllAppUserQuery, GetAllAppUserQueryResponse>
     {
-        readonly UserManager<AppUser> _userManager;
+       private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        public GetAllAppUserQueryHandler(UserManager<AppUser> userManager, IMapper mapper)
+        public GetAllAppUserQueryHandler(IUserService userService, IMapper mapper)
         {
-            _userManager=userManager;
+            _userService = userService;
             _mapper=mapper;
         }
         public async Task<GetAllAppUserQueryResponse> Handle(GetAllAppUserQuery request, CancellationToken cancellationToken)
         {
-            var result = await _userManager.Users.ToListAsync();
-            var paginationResult = result.Skip(request.Pagination.Page * request.Pagination.Size)
-              .Take(request.Pagination.Size)
-             .ToList();
-            var response = _mapper.Map<IList<GetAllAppUserQueryDto>>(paginationResult);
-            return new() { GetAllAppUserQueryDto = response, Success=true};
+            var users= await _userService.GetAllAsync(request.Pagination);
+            var response = _mapper.Map<IList<GetAllAppUserQueryDto>>(users);
+            return new() { GetAllAppUserQueryDto = response, Success = true };
         }
     }
     public class GetAllAppUserQueryResponse
