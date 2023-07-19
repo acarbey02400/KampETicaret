@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using KampETicaret.Application.Abstractions.ApplicationServices.AspnetIdentityServices;
 using KampETicaret.Application.RequestParameters;
 using KampETicaret.Domain.Entities.Identity;
@@ -28,6 +29,7 @@ namespace KampETicaret.Application.Features.Queries.AppUserQueries.GetAllAppUser
         }
         public async Task<GetAllAppUserQueryResponse> Handle(GetAllAppUserQuery request, CancellationToken cancellationToken)
         {
+            if (request.Pagination == null) request.Pagination = new();
             var users= await _userService.GetAllAsync(request.Pagination);
             var response = _mapper.Map<IList<GetAllAppUserQueryDto>>(users);
             return new() { GetAllAppUserQueryDto = response, Success = true };
@@ -41,8 +43,9 @@ namespace KampETicaret.Application.Features.Queries.AppUserQueries.GetAllAppUser
     public class GetAllAppUserQueryDto
     {
         public string? Id { get; set; }
+        public string? FullName { get; set; }
         public string? UserName { get; set; }
-        public string? Password { get; set; }
         public string? Email { get; set; }
     }
+    
 }
