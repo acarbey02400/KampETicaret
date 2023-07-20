@@ -10,12 +10,23 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddControllers().AddFluentValidation(configration => configration.RegisterValidatorsFromAssemblyContaining<CreateProductCommandValidator>());
 builder.Services.AddAplicationServices();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddCors(options =>
+{
+
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:44395/").SetIsOriginAllowed(origin => true);
+                          policy.WithOrigins("https://localhost:44395/").AllowAnyHeader()
+                        .AllowAnyMethod().SetIsOriginAllowed(origin => true);
+                      });
+});
+                  builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddSwaggerGen(
   c =>
@@ -62,7 +73,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lotus.API.Integration v1"));
 }
-
+app.UseCors("https://localhost:44395/");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();

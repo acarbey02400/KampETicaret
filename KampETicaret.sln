@@ -7,17 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{090ADB46-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrasturcture", "Infrasturcture", "{F8091203-F92D-461F-BBF3-8C98A3A00582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KampETicaret.Domain", "Core\KampETicaret.Domain\KampETicaret.Domain.csproj", "{0C907FFF-836F-4863-86E9-98E78389DDB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KampETicaret.Domain", "Core\KampETicaret.Domain\KampETicaret.Domain.csproj", "{0C907FFF-836F-4863-86E9-98E78389DDB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KampETicaret.Application", "Core\KampETicaret.Application\KampETicaret.Application.csproj", "{A974C121-6E83-44E7-AE75-F7940197D6DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KampETicaret.Application", "Core\KampETicaret.Application\KampETicaret.Application.csproj", "{A974C121-6E83-44E7-AE75-F7940197D6DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KampETicaret.Infrasturcture", "Infrasturcture\KampETicaret.Infrasturcture\KampETicaret.Infrasturcture.csproj", "{E5C9A4F4-68C0-4D00-A6F6-BAB14A00EB0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KampETicaret.Infrasturcture", "Infrasturcture\KampETicaret.Infrasturcture\KampETicaret.Infrasturcture.csproj", "{E5C9A4F4-68C0-4D00-A6F6-BAB14A00EB0C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F863C21B-83C4-40E3-BB01-BC8647CF5FEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KampETicaret.WebAPI", "Presentation\KampETicaret.WebAPI\KampETicaret.WebAPI.csproj", "{03570419-4863-4219-BED4-D3CC9F818460}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KampETicaret.WebAPI", "Presentation\KampETicaret.WebAPI\KampETicaret.WebAPI.csproj", "{03570419-4863-4219-BED4-D3CC9F818460}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KampETicaret.Persistence", "Infrasturcture\KampETicaret.Persistence\KampETicaret.Persistence.csproj", "{4669607C-0F26-4374-9515-3C3FC8000E5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KampETicaret.Persistence", "Infrasturcture\KampETicaret.Persistence\KampETicaret.Persistence.csproj", "{4669607C-0F26-4374-9515-3C3FC8000E5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KampETicaret.WebForms", "Presentation\KampETicaret.WebForms\KampETicaret.WebForms.csproj", "{EE87B90E-A148-4B3F-AD8E-E8EFC9DC9812}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{4669607C-0F26-4374-9515-3C3FC8000E5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4669607C-0F26-4374-9515-3C3FC8000E5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4669607C-0F26-4374-9515-3C3FC8000E5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE87B90E-A148-4B3F-AD8E-E8EFC9DC9812}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE87B90E-A148-4B3F-AD8E-E8EFC9DC9812}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE87B90E-A148-4B3F-AD8E-E8EFC9DC9812}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE87B90E-A148-4B3F-AD8E-E8EFC9DC9812}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{E5C9A4F4-68C0-4D00-A6F6-BAB14A00EB0C} = {F8091203-F92D-461F-BBF3-8C98A3A00582}
 		{03570419-4863-4219-BED4-D3CC9F818460} = {F863C21B-83C4-40E3-BB01-BC8647CF5FEC}
 		{4669607C-0F26-4374-9515-3C3FC8000E5C} = {F8091203-F92D-461F-BBF3-8C98A3A00582}
+		{EE87B90E-A148-4B3F-AD8E-E8EFC9DC9812} = {F863C21B-83C4-40E3-BB01-BC8647CF5FEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FB08D4D-1B1F-4CC7-B4BA-EDB8A0E46080}
