@@ -51,6 +51,10 @@ namespace KampETicaret.Infrasturcture.Services.IdentityServices
 
         public async Task<IList<AppUser>> GetAllAsync(Pagination? pagination)
         {
+            if (pagination==null)
+            {
+                pagination = new();
+            }
             var result = await _userManager.Users.ToListAsync();
             var paginationResult = result.Skip(pagination.Page * pagination.Size)
             .Take(pagination.Size)
@@ -64,12 +68,22 @@ namespace KampETicaret.Infrasturcture.Services.IdentityServices
             return user;
         }
 
+        public async Task<AppUser> GetByRefreshToken(string refreshToken)
+        {
+            var user =await _userManager.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
+            if (user != null)
+            {
+                return user;
+            }
+            throw new Exception();
+        }
+
         public async Task<IList<string>> GetRolesAsync(AppUser user)
         {
             return await _userManager.GetRolesAsync(user);
         }
 
-        public async Task<AppUser> UpdatAsync(AppUser user)
+        public async Task<AppUser> UpdateAsync(AppUser user)
         {
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)

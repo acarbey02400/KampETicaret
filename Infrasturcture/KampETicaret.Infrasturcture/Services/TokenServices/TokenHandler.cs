@@ -9,6 +9,7 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,8 +47,20 @@ namespace KampETicaret.Infrasturcture.Services.TokenServices
             //Token oluşturma işlemini tamamlayıp return ediyoruz.
             JwtSecurityTokenHandler jwtTokenHandler = new();
             token.AccessToken = jwtTokenHandler.WriteToken(jwtSecurityToken);
+            token.RefreshToken = CreateRefreshToken();
             return token;
         }
+
+        public string CreateRefreshToken()
+        {
+            byte[] number = new byte[32];
+            using (var random = RandomNumberGenerator.Create())
+            {
+                random.GetBytes(number);
+                return Convert.ToBase64String(number);
+            } 
+        }
+
         private IEnumerable<Claim> setClaims(AppUser user, IList<string> roles)
         {
             var claims = new List<Claim>();

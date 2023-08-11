@@ -17,10 +17,10 @@ namespace KampETicaret.Application.Abstractions.ApplicationServices.AspnetIdenti
     {
         Task<AppUser> CreateAsync(AppUser user,string password);
         Task<bool> DeleteAsync(AppUser user);
-        Task<AppUser> UpdatAsync(AppUser user);
+        Task<AppUser> UpdateAsync(AppUser user);
         Task<IList<AppUser>> GetAllAsync(Pagination? pagination);
         Task<AppUser> GetByNameAsync(string name);
         Task<IList<string>> GetRolesAsync(AppUser user);
-        
+        Task<AppUser> GetByRefreshToken(string refreshToken);
     }
 }

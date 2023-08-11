@@ -28,7 +28,9 @@ namespace KampETicaret.Infrasturcture
                      ValidateIssuerSigningKey = true,
                      ValidAudience = builder["TokenOptions:Audience"],
                      ValidIssuer = builder["TokenOptions:Issuer"],
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder["TokenOptions:SecurityKey"]))
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder["TokenOptions:SecurityKey"])),
+                     //Token süresinin dolup dolmadığını kontrol etmek için lifetimevalidator parametresini kullanıyoruz
+                     LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires!=null ? expires>=DateTime.UtcNow:false
                  };
              });
             services.AddScoped<ITokenHandler,Services.TokenServices.TokenHandler>();

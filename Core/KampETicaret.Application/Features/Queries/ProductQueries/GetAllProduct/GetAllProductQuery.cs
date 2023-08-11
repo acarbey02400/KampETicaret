@@ -15,6 +15,7 @@ namespace KampETicaret.Application.Features.Queries.ProductQueries.GetAllProduct
     public class GetAllProductQuery:IRequest<GetAllProductQueryResponse>
     {
         public Pagination? Pagination { get; set; }
+        
     }
     public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQuery, GetAllProductQueryResponse>
     {
@@ -29,6 +30,10 @@ namespace KampETicaret.Application.Features.Queries.ProductQueries.GetAllProduct
 
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
         {
+            if (request.Pagination==null)
+            {
+                request.Pagination = new();
+            }
           var result = await _productReadRepository.GetAllAsync();
           var paginationResult =  result.Skip(request.Pagination.Page * request.Pagination.Size)
                .Take(request.Pagination.Size)

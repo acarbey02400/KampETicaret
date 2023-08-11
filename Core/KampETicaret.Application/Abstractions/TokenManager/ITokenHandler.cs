@@ -12,5 +12,6 @@ namespace KampETicaret.Application.Abstractions.TokenManager
     public interface ITokenHandler
     {
        Token CreateAccessToken(AppUser user, IList<string> roles);
+       string CreateRefreshToken();
     }
 }

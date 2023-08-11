@@ -6,6 +6,7 @@ using KampETicaret.Application.Features.Commands.ProductCommands.CreateProduct;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,9 @@ builder.Services.AddControllers().AddFluentValidation(configration => configrati
 builder.Services.AddAplicationServices();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAuthorization(options =>
+            options.AddPolicy("Admin",
+                policy => policy.RequireClaim("Admin", "Admin")));
 builder.Services.AddCors(options =>
 {
 

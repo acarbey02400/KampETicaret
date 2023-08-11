@@ -16,7 +16,7 @@ namespace KampETicaret.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes ="Admin",Roles ="admin")]
+    //[Authorize(AuthenticationSchemes ="Admin",Roles ="Admin")]
     public class ProductsController : BaseController
     {
         private readonly IProductWriteRepository _writeRepository;

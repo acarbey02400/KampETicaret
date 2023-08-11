@@ -35,9 +35,27 @@ namespace KampETicaret.Application.Features.Queries.AuthQueries.Login
         }
         public async Task<LoginAppUserResponse> Handle(LoginAppUserQuery request, CancellationToken cancellationToken)
         {
-            var getByNameUserResponse = await _userManager.GetByNameAsync(request.UserName);
-            var role = await _userManager.GetRolesAsync(getByNameUserResponse);
-            return await _loginService.CheckPasswordSignInAsync(getByNameUserResponse, request.Password,false,role);
+            try
+            {
+                var getByNameUserResponse = await _userManager.GetByNameAsync(request.UserName);
+                var role = await _userManager.GetRolesAsync(getByNameUserResponse);
+                var response = await _loginService.CheckPasswordSignInAsync(getByNameUserResponse, request.Password, false, role);
+                if (response.Success)
+                {
+                    //Login işlemi gerçekleştiğinde refresh tokenı kullanıcıya gönderiyoruz.
+                    getByNameUserResponse.RefreshToken = response.Token.RefreshToken;
+                    getByNameUserResponse.RefreshTokenEndDate = response.Token.Expiration.AddHours(3);
+                    await _userManager.UpdateAsync(getByNameUserResponse);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return new() { Message = ex.Message, Success = false };
+            }
+            return new() {Success=false };
+           
            
         }
     }
